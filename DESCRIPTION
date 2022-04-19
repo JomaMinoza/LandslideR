@@ -7,7 +7,7 @@ Maintainer: Jose Marie Antonio Minoza <jminoza@up.edu.ph>
 Description: The LandslideR is a tool for modelling mass failures such as subaerial and submarine landslides, that is based on Ultradiscretized Cellular Automata derived from two-dimensional diffusion equation.
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
+LazyData: false
 Depends: 
     R (>= 2.10)
 RoxygenNote: 7.1.1
