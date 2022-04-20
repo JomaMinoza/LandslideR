@@ -2,7 +2,7 @@
 % Please edit documentation in R/replaceNA.R
 \name{replaceNA}
 \alias{replaceNA}
-\title{replaceNA}
+\title{replaceNA - Replace NA with Zeroes}
 \usage{
 replaceNA(x)
 }
@@ -13,5 +13,5 @@ replaceNA(x)
 
 }
 \description{
-replaceNA
+replaceNA - Replace NA with Zeroes
 }

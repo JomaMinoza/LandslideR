@@ -2,7 +2,7 @@
 % Please edit documentation in R/replaceZero.R
 \name{replaceZero}
 \alias{replaceZero}
-\title{replaceZero}
+\title{replaceZero - Replace Zeroes with NA}
 \usage{
 replaceZero(x)
 }
@@ -13,7 +13,7 @@ replaceZero(x)
 
 }
 \description{
-replaceZero
+replaceZero - Replace Zeroes with NA
 }
 \examples{
 

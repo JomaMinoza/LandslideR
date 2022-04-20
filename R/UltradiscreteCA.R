@@ -1,3 +1,23 @@
+#' R6 Class representing a
+#'@name UltradiscreteCA
+#'@title Ultradiscretized Cellular Automata Model for Landslides
+#'
+#'@description 'UltradiscreteCA' class implements the Ultradiscretized Cellular Automata
+#'   rules derived from two dimensional diffusion equation
+#'
+#'@examples
+#'\dontrun{
+#'data("nwbt.slide.area")
+#'data("nwbt.slide.area.scarp")
+#'
+#'# Model Initializiation
+#'model <- UltradiscreteCA$new(
+#'domain = nwbt.slide.area,          # ASCII/NetCDF Format
+#'slip_area = nwbt.slide.area.scarp, # Assumed location of the landslide
+#'rock_size = 0.5 # unit in meters
+#')
+#'}
+#' @export
 UltradiscreteCA <- R6::R6Class(
   'UltradiscreteCA',
 

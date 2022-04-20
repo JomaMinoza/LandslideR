@@ -2,7 +2,7 @@
 % Please edit documentation in R/set_slide_to_particles.R
 \name{set_slide_to_particles}
 \alias{set_slide_to_particles}
-\title{set_slide_to_particles}
+\title{set_slide_to_particles - Convert Topography into Particle}
 \usage{
 set_slide_to_particles(topo, slide_topo, slip_value = 1000)
 }
@@ -13,7 +13,7 @@ set_slide_to_particles(topo, slide_topo, slip_value = 1000)
 
 }
 \description{
-set_slide_to_particles
+set_slide_to_particles - Convert Topography into Particle
 }
 \examples{
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_particle_values.R
 \name{get_particle_values}
 \alias{get_particle_values}
-\title{get_particle_values}
+\title{get_particle_values - Retrieve Particle Values from Model Experiment}
 \usage{
 get_particle_values(topo, particles)
 }
@@ -13,7 +13,7 @@ get_particle_values(topo, particles)
 
 }
 \description{
-get_particle_values
+get_particle_values - Retrieve Particle Values from Model Experiment
 }
 \examples{
 
