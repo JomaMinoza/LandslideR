@@ -3,11 +3,17 @@ devtools::load_all()
 data("nwbt.slide.area")
 data("nwbt.slide.area.scarp")
 
+plot(nwbt.slide.area, image = TRUE)
+contour(nwbt.slide.area)
+
+plot(nwbt.slide.area.scarp, image = TRUE)
+contour(nwbt.slide.area.scarp)
+
 # Model Initializiation
 model <- UltradiscreteCA$new(
   domain = nwbt.slide.area,          # ASCII/NetCDF Format
   slip_area = nwbt.slide.area.scarp, # Assumed location of the landslide
-  rock_size = 0.5 # unit in meters
+  rock_size = 0.5, # unit in meters
 )
 
 ## Get Particles
@@ -25,8 +31,13 @@ experiment.particles <- model$get_simulation_particles()
 ## Get Slip Values for each iteration
 experiment.slip_values <- model$get_simulation_slip_values()
 
+
 ## Get Displacements for each iteration
 experiment.displacements <- model$get_simulation_displacements(every_n = 10)
+
+## Get Displacement Volumes for each iteration
+experiment.displacement_volumes <- model$get_simulation_sliding_volumes(every_n = 10, km = TRUE)
+
 
 ## Plot Model Results
 

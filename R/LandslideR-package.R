@@ -9,5 +9,6 @@
 #' @importFrom raster projectRaster
 #' @importFrom raster resample
 #' @importFrom raster writeRaster
+#' @importFrom raster res
 ## usethis namespace: end
 NULL

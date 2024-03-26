@@ -1,9 +1,9 @@
 Package: LandslideR
 Type: Package
 Title: LandslideR: Ultradiscrete Cellular Automata Model for Generalized Mass Failure
-Version: 0.1.0
+Version: 0.2.0
 Author: Jose Marie Antonio Minoza
-Maintainer: Jose Marie Antonio Minoza <jminoza@up.edu.ph>
+Maintainer: Jose Marie Antonio Minoza <jminoza@upd.edu.ph>
 Description: The LandslideR is a tool for modelling mass failures such as subaerial and submarine landslides, that is based on Ultradiscretized Cellular Automata derived from two-dimensional diffusion equation.
 License: MIT + file LICENSE
 Encoding: UTF-8

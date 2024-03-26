@@ -2,8 +2,8 @@ citHeader("To cite LandslideR in publications use:")
 
 citEntry(
   entry    = "Article",
-  title    = ,
-  author   = ,
+  title    = "LandslideR: Ultradiscrete Cellular Automata Model for Generalized Mass Failure",
+  author   = c("Jose Marie Antonio Minoza"),
   journal  = ,
   year     = ,
   volume   = ,

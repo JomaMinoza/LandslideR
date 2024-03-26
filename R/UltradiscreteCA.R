@@ -27,12 +27,16 @@ UltradiscreteCA <- R6::R6Class(
     slip_area = NULL,
     rock_size = NULL,
     scarp_depth = NULL,
+    dynamic_particles = NULL,
+    resolution = NULL,
 
-    initialize = function(domain, slip_area, rock_size = 0.5, scarp_depth = 1000) {
+    initialize = function(domain, slip_area, rock_size = 0.5, scarp_depth = 1000, dynamic_particles = TRUE) {
       self$domain = domain
       self$slip_area    = slip_area
       self$rock_size    = rock_size
       self$scarp_depth  = scarp_depth
+      self$dynamic_particles = dynamic_particles
+      self$resolution = get_resolution(self$domain)
 
       private$set_particles()
       private$get_particle_slip_values()
@@ -102,8 +106,15 @@ UltradiscreteCA <- R6::R6Class(
 
     get_simulation_displacements = function(every_n = 5){
       displacements <- private$get_displacement_topos(every_n = every_n)
+      private$get_validation_of_mass_conservation(every_n = every_n)
 
       return(displacements)
+    },
+
+    get_simulation_sliding_volumes = function(every_n = 5, km = F){
+      volumes <- private$get_displacement_volume(every_n = every_n, km = km)
+
+      return(volumes)
     },
 
     save_plots = function(type = "slide", every_n = 1, save_location = getwd(), ...){
@@ -163,8 +174,9 @@ UltradiscreteCA <- R6::R6Class(
 
     get_iteration_results = function(particle){
 
-      simulation_experiment <- model.simulate_ultradiff_particles(particle,
-                                                                  self$rock_size)
+      simulation_experiment <- model.simulate_ultradiff_particles(particles = particle,
+                                                                  thickness = self$rock_size,
+                                                                  dynamic_particles = self$dynamic_particles)
 
       return(simulation_experiment)
 
@@ -208,7 +220,6 @@ UltradiscreteCA <- R6::R6Class(
         print(paste0("Retriving Slide Displacement after Iteration ", left_index))
 
         displacement <- topos[[left_index]] - topos[[right_index]]
-
         displacements[[reference - 1]] <- displacement
 
       }
@@ -216,6 +227,66 @@ UltradiscreteCA <- R6::R6Class(
       return(displacements)
 
     },
+
+    get_displacement_volume = function(every_n = 1, km = F){
+
+      if(is.null(private$experiment_particles)){
+        topos <- self$get_simulation_slip_values()
+      } else {
+        topos <- private$experiment_slip_values
+      }
+
+      area <- self$resolution[1] * self$resolution[2]
+      unit <- "m^3"
+
+      references    <- unique(seq(1, length(topos), every_n), length(topos))
+
+      if(km){
+        area <- area / 1000000000
+        unit <- "km^3"
+      }
+
+      displacement_volume <- list()
+
+
+      for(reference in 2:length(references)){
+
+        index             <- references[reference]
+        displacement      <- topos[[index]]
+
+        volume <- sum(displacement, na.rm = T) * area
+
+        print(paste0("Retriving Sliding Volume after Iteration ", reference - 1, ": ", volume, " ", unit))
+        displacement_volume[[reference]] <- volume
+
+
+      }
+
+      return(displacement_volume)
+
+    },
+
+    get_validation_of_mass_conservation = function(every_n = 1){
+
+      displacements <- private$get_displacement_topos(every_n = every_n)
+      topos <- private$experiment_particles
+      references    <- unique(seq(1, length(topos) - 1, every_n), length(topos))
+
+      displacement_volume <- list()
+
+      for(reference in 1:length(references)){
+
+        volume <- sum(displacements[[reference]])
+
+        print(paste0("Validating Conservation of Mass after Iteration ", reference, ": ", volume, " m^3 changes"))
+        displacement_volume[[reference]] <- volume
+
+      }
+
+      return(displacement_volume)
+
+    },
+
 
     save_displacement_topography = function(topo, file_name, folder_location){
       topo %>%
@@ -299,7 +370,9 @@ UltradiscreteCA <- R6::R6Class(
       simulations <- seq(1, length(values), every_n)
 
       for(simulation in 1:length(simulations)){
-        plot(values[[simulations[simulation]]], sub = paste0("Iteration ", simulations[simulation]), ...)
+        plot(self$domain)
+
+        plot(values[[simulations[simulation]]], sub = paste0("Iteration ", simulations[simulation]), image = TRUE, add = TRUE, ...)
         dev.copy(png,paste0(save_location,'/',simulations[simulation],'.png'))
         dev.off()
       }

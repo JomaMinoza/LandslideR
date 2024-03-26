@@ -32,6 +32,7 @@ rock_size = 0.5 # unit in meters
 \item \href{#method-get_simulation_particles}{\code{UltradiscreteCA$get_simulation_particles()}}
 \item \href{#method-get_simulation_slip_values}{\code{UltradiscreteCA$get_simulation_slip_values()}}
 \item \href{#method-get_simulation_displacements}{\code{UltradiscreteCA$get_simulation_displacements()}}
+\item \href{#method-get_simulation_sliding_volumes}{\code{UltradiscreteCA$get_simulation_sliding_volumes()}}
 \item \href{#method-save_plots}{\code{UltradiscreteCA$save_plots()}}
 \item \href{#method-save_output}{\code{UltradiscreteCA$save_output()}}
 \item \href{#method-get_particles}{\code{UltradiscreteCA$get_particles()}}
@@ -44,7 +45,13 @@ rock_size = 0.5 # unit in meters
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{UltradiscreteCA$new(domain, slip_area, rock_size = 0.5, scarp_depth = 1000)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{UltradiscreteCA$new(
+  domain,
+  slip_area,
+  rock_size = 0.5,
+  scarp_depth = 1000,
+  dynamic_particles = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 }
@@ -90,6 +97,15 @@ rock_size = 0.5 # unit in meters
 \subsection{Method \code{get_simulation_displacements()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{UltradiscreteCA$get_simulation_displacements(every_n = 5)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-get_simulation_sliding_volumes"></a>}}
+\if{latex}{\out{\hypertarget{method-get_simulation_sliding_volumes}{}}}
+\subsection{Method \code{get_simulation_sliding_volumes()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{UltradiscreteCA$get_simulation_sliding_volumes(every_n = 5, km = F)}\if{html}{\out{</div>}}
 }
 
 }
