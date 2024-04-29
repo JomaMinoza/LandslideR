@@ -304,8 +304,11 @@ UltradiscreteCA <- R6::R6Class(
                                   file_name_prefix = "slide",
                                   folder_location = getwd(),
                                   crs = '+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0',
-                                  resolution = c(0.0041656,0.0041656),
+                                  resolution = NULL,
                                   ...){
+      if(is.null(resolution)){
+        resolution <- self$resolution
+      }
 
       displacements <- private$get_displacement_topos(every_n = every_n)
 
