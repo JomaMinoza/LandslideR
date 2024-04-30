@@ -10,5 +10,7 @@
 #' @importFrom raster resample
 #' @importFrom raster writeRaster
 #' @importFrom raster res
+#' @importFrom raster extent
+#' @importFrom raster Which
 ## usethis namespace: end
 NULL
