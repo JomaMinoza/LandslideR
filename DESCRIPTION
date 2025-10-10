@@ -11,8 +11,11 @@ LazyData: false
 Depends: 
     R (>= 2.10)
 RoxygenNote: 7.1.2
-Imports: 
+Imports:
     BBmisc,
     magrittr,
     marmap,
+    R6,
     raster
+Suggests:
+    testthat (>= 3.0.0)

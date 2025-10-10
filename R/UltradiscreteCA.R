@@ -31,6 +31,23 @@ UltradiscreteCA <- R6::R6Class(
     resolution = NULL,
 
     initialize = function(domain, slip_area, rock_size = 0.5, scarp_depth = 1000, dynamic_particles = TRUE) {
+      # Input validation
+      if (is.null(domain)) {
+        stop("domain cannot be NULL")
+      }
+      if (is.null(slip_area)) {
+        stop("slip_area cannot be NULL")
+      }
+      if (!is.numeric(rock_size) || rock_size <= 0) {
+        stop("rock_size must be a positive numeric value")
+      }
+      if (!is.numeric(scarp_depth) || scarp_depth <= 0) {
+        stop("scarp_depth must be a positive numeric value")
+      }
+      if (!is.logical(dynamic_particles)) {
+        stop("dynamic_particles must be a logical value (TRUE or FALSE)")
+      }
+
       self$domain = domain
       self$slip_area    = slip_area
       self$rock_size    = rock_size
@@ -48,6 +65,10 @@ UltradiscreteCA <- R6::R6Class(
     },
 
     simulate = function(iterations = 5, save = TRUE) {
+      # Input validation
+      if (!is.numeric(iterations) || iterations <= 0 || iterations != as.integer(iterations)) {
+        stop("iterations must be a positive integer")
+      }
 
       particle <- self$get_particles()
       private$results <- list(particle)
@@ -289,15 +310,25 @@ UltradiscreteCA <- R6::R6Class(
 
 
     save_displacement_topography = function(topo, file_name, folder_location){
-      topo %>%
-        as.bathy() %>%
-        replaceNA() %>%
-        as.raster() %>%
-        writeRaster(
-          paste0(folder_location,"/",file_name,".asc"),
-          format = "ascii",
-          overwrite = TRUE
-        )
+      tryCatch({
+        # Check if folder exists, create if not
+        if (!dir.exists(folder_location)) {
+          dir.create(folder_location, recursive = TRUE)
+          message(paste("Created directory:", folder_location))
+        }
+
+        topo %>%
+          as.bathy() %>%
+          replaceNA() %>%
+          as.raster() %>%
+          writeRaster(
+            paste0(folder_location,"/",file_name,".asc"),
+            format = "ascii",
+            overwrite = TRUE
+          )
+      }, error = function(e) {
+        stop(paste("Failed to save topography file:", file_name, "\nError:", e$message))
+      })
     },
 
     save_displacements = function(every_n = 5,
@@ -334,12 +365,22 @@ UltradiscreteCA <- R6::R6Class(
     plot_delta = function(every_n = 1, save_location = getwd(), ...){
       values = private$get_delta_results()
 
+      # Check if folder exists, create if not
+      if (!dir.exists(save_location)) {
+        dir.create(save_location, recursive = TRUE)
+        message(paste("Created directory:", save_location))
+      }
+
       simulations <- seq(1, length(values), every_n)
 
       for(simulation in 1:length(simulations)){
-        plot(values[[simulations[simulation]]], sub = paste0("Iteration ", simulations[simulation]), ...)
-        dev.copy(png,paste0(save_location,'/',simulations[simulation],'.png'))
-        dev.off()
+        tryCatch({
+          plot(values[[simulations[simulation]]], sub = paste0("Iteration ", simulations[simulation]), ...)
+          dev.copy(png,paste0(save_location,'/',simulations[simulation],'.png'))
+          dev.off()
+        }, error = function(e) {
+          warning(paste("Failed to save plot for iteration", simulations[simulation], ":", e$message))
+        })
       }
 
     },
@@ -352,12 +393,22 @@ UltradiscreteCA <- R6::R6Class(
         values <- private$experiment_particles
       }
 
+      # Check if folder exists, create if not
+      if (!dir.exists(save_location)) {
+        dir.create(save_location, recursive = TRUE)
+        message(paste("Created directory:", save_location))
+      }
+
       simulations <- seq(1, length(values), every_n)
 
       for(simulation in 1:length(simulations)){
-        plot(values[[simulations[simulation]]], sub = paste0("Iteration ", simulations[simulation]), ...)
-        dev.copy(png,paste0(save_location,'/',simulations[simulation],'.png'))
-        dev.off()
+        tryCatch({
+          plot(values[[simulations[simulation]]], sub = paste0("Iteration ", simulations[simulation]), ...)
+          dev.copy(png,paste0(save_location,'/',simulations[simulation],'.png'))
+          dev.off()
+        }, error = function(e) {
+          warning(paste("Failed to save plot for iteration", simulations[simulation], ":", e$message))
+        })
       }
 
     },
@@ -370,14 +421,24 @@ UltradiscreteCA <- R6::R6Class(
         values <- private$experiment_slip_values
       }
 
+      # Check if folder exists, create if not
+      if (!dir.exists(save_location)) {
+        dir.create(save_location, recursive = TRUE)
+        message(paste("Created directory:", save_location))
+      }
+
       simulations <- seq(1, length(values), every_n)
 
       for(simulation in 1:length(simulations)){
-        plot(self$domain)
+        tryCatch({
+          plot(self$domain)
 
-        plot(values[[simulations[simulation]]], sub = paste0("Iteration ", simulations[simulation]), image = TRUE, add = TRUE, ...)
-        dev.copy(png,paste0(save_location,'/',simulations[simulation],'.png'))
-        dev.off()
+          plot(values[[simulations[simulation]]], sub = paste0("Iteration ", simulations[simulation]), image = TRUE, add = TRUE, ...)
+          dev.copy(png,paste0(save_location,'/',simulations[simulation],'.png'))
+          dev.off()
+        }, error = function(e) {
+          warning(paste("Failed to save plot for iteration", simulations[simulation], ":", e$message))
+        })
       }
 
     }
