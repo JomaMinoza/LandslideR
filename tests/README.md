@@ -74,14 +74,14 @@ The test suite is organized into the following files:
 
 The test suite covers:
 
-- ✅ Input validation
-- ✅ Utility functions
-- ✅ Particle system creation and manipulation
-- ✅ Core simulation algorithm
-- ✅ File I/O operations with error handling
-- ✅ Mathematical correctness (flow direction, conservation)
-- ✅ Integration testing
-- ✅ Edge cases and error conditions
+- Input validation
+- Utility functions
+- Particle system creation and manipulation
+- Core simulation algorithm
+- File I/O operations with error handling
+- Mathematical correctness (flow direction, conservation)
+- Integration testing
+- Edge cases and error conditions
 
 ## Dependencies
 
